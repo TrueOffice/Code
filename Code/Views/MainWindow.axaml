@@ -1,0 +1,93 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Code.Views"
+        xmlns:conv="clr-namespace:Code.Converters"
+        xmlns:local="clr-namespace:Code.Views"
+        x:Class="Code.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="D Code Editor" Width="800" Height="600"
+        KeyDown="OnKeyDown"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="0"
+        ExtendClientAreaChromeHints="NoChrome">
+	<Window.Resources>
+		<conv:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
+	</Window.Resources>
+	<Border Background="#FF2D2D30" BorderBrush="#FF007ACC" BorderThickness="1">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="30"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="200"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="200"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+
+			<!-- Title Bar -->
+			<Border Grid.Row="0" Grid.ColumnSpan="5" Background="#FF1E1E1E" PointerPressed="OnTitleBarPointerPressed">
+				<TextBlock VerticalAlignment="Center" Margin="10,0,0,0" Foreground="White" Text="TrueOffice Code"/>
+			</Border>
+
+			<!-- Minimize Button -->
+			<Button Grid.Row="0" Grid.Column="2" Content="-" Width="30" Click="OnMinimizeClick"/>
+
+			<!-- Maximize/Restore Button -->
+			<Button Grid.Row="0" Grid.Column="3" Content="□" Width="30" Click="OnMaximizeRestoreClick"/>
+
+			<!-- Close Button -->
+			<Button Grid.Row="0" Grid.Column="4" Content="X" Width="30" Click="OnCloseClick"/>
+
+			<!-- Menu and Content -->
+			<Menu Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top" Focusable="False">
+				<MenuItem Header="File" Focusable="False">
+					<MenuItem Header="Open" Command="{Binding OpenCommand}" />
+					<MenuItem Header="Save" Command="{Binding SaveCommand}" />
+					<MenuItem Header="Open Folder" Command="{Binding OpenFolderCommand}" />
+					<MenuItem Header="New File" Command="{Binding NewFileCommand}" />
+					<MenuItem Header="New Folder" Command="{Binding NewFolderCommand}" />
+					<MenuItem Header="Refresh" Command="{Binding RefreshCommand}" />
+				</MenuItem>
+				<MenuItem Header="Edit" Focusable="False">
+					<MenuItem Header="Undo" Command="{Binding UndoCommand}" />
+					<MenuItem Header="Redo" Command="{Binding RedoCommand}" />
+				</MenuItem>
+				<MenuItem Header="Run" Focusable="False" Command="{Binding RunCommand}" />
+			</Menu>
+			<TreeView Margin="0 30 0 0" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding FileTree}" SelectedItem="{Binding SelectedFile}" DoubleTapped="OnFileDoubleTapped">
+				<TreeView.ItemTemplate>
+					<TreeDataTemplate DataType="{x:Type vm:FileItem}" ItemsSource="{Binding Children}">
+						<StackPanel Orientation="Horizontal" Focusable="False">
+							<Image Source="avares://Code/Assets/folder-icon.png" Width="16" Height="16" Margin="0,0,5,0" Opacity="{Binding IsDirectory, Converter={StaticResource BooleanToOpacityConverter}}"/>
+							<TextBlock Text="{Binding Name}" Focusable="False" />
+						</StackPanel>
+					</TreeDataTemplate>
+				</TreeView.ItemTemplate>
+			</TreeView>
+			<ScrollViewer Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch">
+				<StackPanel>
+					<TextBox KeyDown="CodeTextBox_KeyDown" x:Name="CodeTextBox" Text="{Binding Code, Mode=TwoWay}" AcceptsReturn="True"/>
+					<Popup x:Name="SuggestionsPopup" PlacementTarget="{Binding ElementName=CodeTextBox}" PlacementMode="Bottom" IsLightDismissEnabled="True">
+						<ListBox ItemsSource="{Binding Suggestions}" />
+					</Popup>
+				</StackPanel>
+			</ScrollViewer>
+			<DockPanel Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom">
+				<StackPanel Orientation="Vertical">
+					<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+						<TextBox Name="TerminalTextBox"
+                                 Text="{Binding Output}"
+                                 IsReadOnly="True"
+                                 AcceptsReturn="True"
+                                 Focusable="False"
+                                 TextWrapping="Wrap" />
+					</ScrollViewer>
+				</StackPanel>
+			</DockPanel>
+		</Grid>
+	</Border>
+</Window>

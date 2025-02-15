@@ -1,0 +1,35 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Style Selector="TextBox">
+		<Setter Property="FontFamily" Value="Consolas"/>
+		<Setter Property="FontSize" Value="14"/>
+		<Setter Property="Background" Value="#1E1E1E"/>
+		<Setter Property="Foreground" Value="#D4D4D4"/>
+		<Setter Property="BorderBrush" Value="#3C3C3C"/>
+		<Setter Property="BorderThickness" Value="1"/>
+	</Style>
+	<Style Selector="Button">
+		<Setter Property="FontFamily" Value="Consolas"/>
+		<Setter Property="FontSize" Value="14"/>
+		<Setter Property="Background" Value="#007ACC"/>
+		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="BorderBrush" Value="#3C3C3C"/>
+		<Setter Property="BorderThickness" Value="1"/>
+	</Style>
+	<Style Selector="Menu">
+		<Setter Property="Background" Value="#333333"/>
+		<Setter Property="Foreground" Value="#D4D4D4"/>
+	</Style>
+	<Style Selector="MenuItem">
+		<Setter Property="Background" Value="#333333"/>
+		<Setter Property="Foreground" Value="#D4D4D4"/>
+	</Style>
+	<Style Selector="TreeView">
+		<Setter Property="Background" Value="#252526"/>
+		<Setter Property="Foreground" Value="#D4D4D4"/>
+	</Style>
+	<Style Selector="TreeViewItem">
+		<Setter Property="Background" Value="#252526"/>
+		<Setter Property="Foreground" Value="#D4D4D4"/>
+	</Style>
+</Styles>
